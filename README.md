@@ -19,19 +19,32 @@ Tala är en liten menyradsapp. Den förstår svenska tack vare **Klang Pianissim
 
 Kräver en Mac med Apple Silicon (M1 eller senare) och macOS 14 eller senare.
 
-Öppna **Terminal** och klistra in:
+### Det enklaste sättet: ladda ner appen
+
+1. **[Ladda ner Tala](https://github.com/angiestran/tala/raw/main/download/Tala.zip)** och öppna filen Tala.zip i Hämtade filer, så packas appen upp.
+2. **Dra Tala till mappen Program.**
+3. **Dubbelklicka på Tala.** Första gången säger Macen att den inte kan kontrollera appen, eftersom Tala inte är granskad av Apple. Klicka **Klar**.
+4. **Öppna Systeminställningar → Integritet och säkerhet**, scrolla ner till meddelandet om Tala och klicka **Öppna ändå**. Bekräfta med ditt lösenord. Det behövs bara första gången.
+
+### Alternativ: Terminal eller Claude Code
+
+Vill du hellre att Tala byggs på din egen dator, öppna Terminal och klistra in:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/angiestran/tala/main/install.sh | zsh
 ```
 
-Tala byggs på din egen dator och läggs i Program. Första gången tar det några minuter. Saknas Apples utvecklarverktyg öppnas en ruta där du väljer **Installera**. Kör sedan kommandot igen.
+Använder du Claude Code kan du i stället skriva: *Installera Tala från https://github.com/angiestran/tala*
 
-När Tala startar visar ett startfönster tre steg:
+### Första starten
+
+Ett startfönster visar tre steg:
 
 1. **Hämta Klangs modell**, cirka 690 MB och bara en gång. Varje fil kontrolleras mot en fast kontrollsumma.
 2. **Tillåt mikrofonen.**
-3. **Slå på Tala under Hjälpmedel** (Systeminställningar → Integritet och säkerhet). Det behövs för att höger alt ska fungera överallt och för att texten ska kunna klistras in.
+3. **Slå på Tala under Hjälpmedel** (Systeminställningar → Integritet och säkerhet). Det behövs för att texten ska kunna klistras in och för att höger alt ska fungera överallt.
+
+Sedan klickar du på cybergumman och pratar.
 
 > Installerar du om eller uppdaterar Tala kan du behöva ta bort Tala under Hjälpmedel med − och lägga till den igen med +.
 
