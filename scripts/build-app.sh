@@ -44,7 +44,13 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 PLIST
 
 xattr -cr "$APP"
-codesign --force --deep --sign - --identifier se.growingsmart.tala "$APP"
+if [[ -n "$TALA_SIGN_IDENTITY" ]]; then
+  # Developer ID: hardened runtime + tidsstämpel krävs för Apples granskning (notarisering)
+  codesign --force --options runtime --timestamp --entitlements scripts/Tala.entitlements \
+    --identifier se.growingsmart.tala --sign "$TALA_SIGN_IDENTITY" "$APP"
+else
+  codesign --force --deep --sign - --identifier se.growingsmart.tala "$APP"   # ad hoc, för egen dator
+fi
 
 if [[ "$MODE" == "--zip" ]]; then
   rm -f .build/Tala.zip

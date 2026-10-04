@@ -46,4 +46,5 @@ hdiutil detach -quiet "$work/mnt"
 
 rm -f .build/Tala.dmg
 hdiutil convert -quiet "$work/rw.dmg" -format UDZO -imagekey zlib-level=9 -o .build/Tala.dmg
+[[ -n "$TALA_SIGN_IDENTITY" ]] && codesign --force --timestamp --sign "$TALA_SIGN_IDENTITY" .build/Tala.dmg
 echo "Klar: .build/Tala.dmg"
