@@ -64,7 +64,7 @@ cd tala
 scripts/build-app.sh
 ```
 
-Tala är ett Swift-paket och byggs med Apples utvecklarverktyg (Xcode behövs inte).
+Bygger du Tala själv behöver du Apples gratis Command Line Tools (installeras med `xcode-select --install`). Hela Xcode behövs inte. Laddar du ner den färdiga appen behövs inget av detta.
 
 ## Tack
 
