@@ -1,6 +1,9 @@
 #!/bin/zsh
 # Bygger Tala.app och installerar den i /Applications.
+#   scripts/build-app.sh            bygg och installera
+#   scripts/build-app.sh --zip      bygg och packa som .build/Tala.zip för nedladdning (installerar inte)
 set -e
+MODE="${1:-install}"
 cd "$(dirname "$0")/.."
 swift build -c release
 
@@ -36,12 +39,20 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>CFBundleDevelopmentRegion</key><string>sv</string>
   <key>LSMinimumSystemVersion</key><string>14.0</string>
   <key>LSUIElement</key><true/>
-  <key>NSMicrophoneUsageDescription</key><string>Tala lyssnar bara medan du håller in höger ⌥. Ljudet lämnar aldrig din Mac.</string>
+  <key>NSMicrophoneUsageDescription</key><string>Tala lyssnar bara när du startar en diktering. Ljudet lämnar aldrig din Mac.</string>
 </dict></plist>
 PLIST
 
 xattr -cr "$APP"
 codesign --force --deep --sign - --identifier se.growingsmart.tala "$APP"
+
+if [[ "$MODE" == "--zip" ]]; then
+  rm -f .build/Tala.zip
+  ditto -c -k --keepParent "$APP" .build/Tala.zip
+  echo "Packad: .build/Tala.zip"
+  exit 0
+fi
+
 pkill -x Tala 2>/dev/null || true
 rm -rf /Applications/Tala.app
 ditto "$APP" /Applications/Tala.app
