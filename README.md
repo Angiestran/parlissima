@@ -21,9 +21,9 @@ Kräver en Mac med Apple Silicon (M1 eller senare) och macOS 14 eller senare.
 
 ### Det enklaste sättet: ladda ner appen
 
-1. **[Ladda ner Tala](https://github.com/angiestran/tala/raw/main/download/Tala.zip)** och öppna filen Tala.zip i Hämtade filer, så packas appen upp.
-2. **Dra Tala till mappen Program.**
-3. **Dubbelklicka på Tala.** Första gången säger Macen att den inte kan kontrollera appen, eftersom Tala inte är granskad av Apple. Klicka **Klar**.
+1. **[Ladda ner Tala](https://github.com/angiestran/tala/raw/main/download/Tala.dmg)** och öppna filen Tala.dmg i Hämtade filer.
+2. **Dra Tala till mappen Appar** i fönstret som öppnas.
+3. **Öppna Tala** från Appar. Första gången visar Macen rutan *"Tala" öppnades inte*, eftersom appen inte är granskad av Apple. Klicka **Klar** (inte Flytta till papperskorgen).
 4. **Öppna Systeminställningar → Integritet och säkerhet**, scrolla ner till meddelandet om Tala och klicka **Öppna ändå**. Bekräfta med ditt lösenord. Det behövs bara första gången.
 
 ### Alternativ: Terminal eller Claude Code

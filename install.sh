@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Installerar Tala – svensk diktering med Klang Pianissimo – på din Mac.
-# Bygger appen på din egen dator och lägger den i /Applications.
+# Bygger appen på din egen dator och lägger den i Appar (/Applications).
 #
 #   curl -fsSL https://raw.githubusercontent.com/angiestran/tala/main/install.sh | zsh
 
@@ -27,7 +27,7 @@ git clone --quiet --depth 1 "$REPO" "$dir/tala"
 say "Bygger Tala – första gången tar det några minuter …"
 "$dir/tala/scripts/build-app.sh" >/dev/null
 
-say "Klart! Tala ligger i Program. Startar …"
+say "Klart! Tala ligger i Appar. Startar …"
 open /Applications/Tala.app
 print ""
 print "Följ startfönstret: hämta Klangs modell, tillåt mikrofon och slå på Tala under Hjälpmedel."
