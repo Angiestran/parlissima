@@ -36,6 +36,20 @@ curl -fsSL https://raw.githubusercontent.com/angiestran/parlissima/main/install.
 
 Använder du Claude Code kan du i stället skriva: *Installera Parlissima från https://github.com/angiestran/parlissima*
 
+### Har du inte Mac?
+
+Parlissima finns bara för Mac. Det här fungerar på andra enheter:
+
+| Har du | Tips | Klang Pianissimo? |
+|---|---|---|
+| iPhone | [SnickSnack](https://snicksnack.applicerad.ai/) i App Store. Allt sker i telefonen. | Ja |
+| Windows | [Pianissimo Meet](https://github.com/Olleman82/PianissimoMeet-public/releases/tag/v0.1.0-beta.1), öppen källkod. Transkriberar Teams- och Zoom-möten lokalt. | Ja |
+| Windows, vardagsdiktering | Inbyggd röstinmatning: Windows-tangenten + H i valfri textruta | Nej |
+| Android | Mikrofonen i Googles tangentbord Gboard | Nej |
+| En ljudfil, vilken dator som helst | [Klangs demo](https://klang.ai/pianissimo/): ladda upp filen och få texten. Ljudet skickas till Klang. | Ja |
+
+Fler appar byggda med Pianissimo finns på [klang.ai/pianissimo](https://klang.ai/pianissimo/).
+
 ### Första starten
 
 Ett startfönster visar tre steg:
