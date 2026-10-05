@@ -152,7 +152,7 @@ final class Dictation {
                 Inserter.copy(text)
                 Log.write("Hjälpmedel saknas – texten lagd i urklipp (aktiv app: \(target))")
                 Sound.error()
-                hud.show(.problem("Texten ligger i urklipp – tryck ⌘V. Slå på Tala under Hjälpmedel så klistras den in själv."), hideAfter: 6)
+                hud.show(.problem("Texten ligger i urklipp – tryck ⌘V. Slå på Parlissima under Hjälpmedel så klistras den in själv."), hideAfter: 6)
                 return
             }
             Inserter.paste(text)
@@ -195,11 +195,11 @@ enum Sound {
     static func error() { play("Basso", volume: 0.3) }
 }
 
-/// Enkel logg för felsökning (inga dikterade texter skrivs hit). ~/Library/Logs/Tala.log
+/// Enkel logg för felsökning (inga dikterade texter skrivs hit). ~/Library/Logs/Parlissima.log
 enum Log {
     static func write(_ line: String) {
         let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Logs/Tala.log")
+            .appendingPathComponent("Logs/Parlissima.log")
         let stamp = ISO8601DateFormatter().string(from: Date())
         let data = Data("\(stamp)  \(line)\n".utf8)
         if let h = try? FileHandle(forWritingTo: url) { h.seekToEndOfFile(); h.write(data); try? h.close() }

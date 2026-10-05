@@ -94,7 +94,7 @@ enum Vocabulary {
     static var file: URL { PianissimoModel.appSupport.appendingPathComponent("ordlista.txt") }
 
     static let starter = """
-    # Tala – ordlista
+    # Parlissima – ordlista
     # En rad per ord: det Pianissimo hör => så ska det stavas.
     # Rader som börjar med # ignoreras. Spara filen, så gäller den direkt.
 

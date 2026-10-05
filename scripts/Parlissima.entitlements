@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <!-- Hardened runtime: Tala får använda mikrofonen (bara när du startar en diktering) -->
+  <!-- Hardened runtime: Parlissima får använda mikrofonen (bara när du startar en diktering) -->
   <key>com.apple.security.device.audio-input</key><true/>
 </dict>
 </plist>

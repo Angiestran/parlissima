@@ -22,7 +22,7 @@ final class Recorder: @unchecked Sendable {
         let input = engine.inputNode
         let inFormat = input.outputFormat(forBus: 0)
         guard inFormat.sampleRate > 0,
-              let converter = AVAudioConverter(from: inFormat, to: Self.format) else { throw TalaError.noMicrophone }
+              let converter = AVAudioConverter(from: inFormat, to: Self.format) else { throw ParlissimaError.noMicrophone }
         input.installTap(onBus: 0, bufferSize: 1024, format: inFormat, block: Self.tap(self, converter))
         engine.prepare()
         do { try engine.start() } catch { input.removeTap(onBus: 0); throw error }

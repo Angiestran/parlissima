@@ -62,7 +62,7 @@ struct SetupView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Tala").font(.system(size: 40, weight: .heavy)).foregroundStyle(.white)
+                Text("Parlissima").font(.system(size: 40, weight: .heavy)).foregroundStyle(.white)
                 Text("Svensk diktering med Klang Pianissimo. Allt stannar på din Mac.")
                     .font(.system(size: 16)).foregroundStyle(Brand.soft)
             }
@@ -82,12 +82,12 @@ struct SetupView: View {
             }
 
             step(2, "Mikrofon", done: model.micReady,
-                 detail: "Så att Tala kan höra dig. Ljudet lämnar aldrig datorn.") {
+                 detail: "Så att Parlissima kan höra dig. Ljudet lämnar aldrig datorn.") {
                 if !model.micReady { button("Tillåt") { model.askMic() } }
             }
 
             step(3, "Hjälpmedel", done: model.accessReady,
-                 detail: "Så att höger alt fungerar överallt och texten kan klistras in. Slå på Tala i listan.") {
+                 detail: "Så att höger alt fungerar överallt och texten kan klistras in. Slå på Parlissima i listan.") {
                 if !model.accessReady { button("Öppna inställningar") { model.askAccess() } }
             }
 
@@ -95,9 +95,9 @@ struct SetupView: View {
 
             if model.allReady {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Klart! Håll in höger alt (eller höger control) och prata.")
+                    Text("Klart! Klicka på pingvinen och prata.")
                         .font(.system(size: 18, weight: .semibold)).foregroundStyle(.white)
-                    Text("Dubbeltryck för handsfree. Esc avbryter. Dikteringar sparas i två timmar under Senaste i menyraden.")
+                    Text("Klicka igen när du är klar. Du kan också hålla in höger alt. Esc avbryter. Dikteringar sparas i två timmar under Senaste i menyraden.")
                         .font(.system(size: 14)).foregroundStyle(Brand.soft)
                 }
             }

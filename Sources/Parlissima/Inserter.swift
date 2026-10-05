@@ -5,7 +5,7 @@ import Carbon
 /// Klistrar in text där markören står och lägger sedan tillbaka det du hade i urklipp.
 @MainActor
 enum Inserter {
-    /// Står markören i ett lösenordsfält? Då klistrar Tala aldrig in något.
+    /// Står markören i ett lösenordsfält? Då klistrar Parlissima aldrig in något.
     static var inPasswordField: Bool {
         let system = AXUIElementCreateSystemWide()
         AXUIElementSetMessagingTimeout(system, 0.2)

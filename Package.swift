@@ -2,16 +2,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tala",
+    name: "Parlissima",
     platforms: [.macOS(.v14)],
     dependencies: [
         .package(url: "https://github.com/FluidInference/FluidAudio.git", exact: "0.17.4"),
     ],
     targets: [
         .executableTarget(
-            name: "Tala",
+            name: "Parlissima",
             dependencies: [.product(name: "FluidAudio", package: "FluidAudio")],
-            path: "Sources/Tala",
+            path: "Sources/Parlissima",
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
     ]

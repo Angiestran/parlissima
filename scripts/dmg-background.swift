@@ -1,4 +1,4 @@
-// Ritar bakgrunden till Talas installationsfönster (660 x 400 pt, @2x).
+// Ritar bakgrunden till Parlissimas installationsfönster (660 x 400 pt, @2x).
 // Kör: swift scripts/dmg-background.swift <ut.png>
 import AppKit
 
@@ -28,8 +28,8 @@ func text(_ s: String, size: CGFloat, weight: NSFont.Weight, color: NSColor, y: 
                                             .foregroundColor: color, .paragraphStyle: p]
     NSAttributedString(string: s, attributes: a).draw(in: NSRect(x: 0, y: y, width: w, height: size * 1.5))
 }
-text("Installera Tala", size: 26, weight: .heavy, color: .white, y: h - 70)
-text("Dra Tala till mappen Appar", size: 15, weight: .regular, color: rgb(0xf4ede0, 0.85), y: h - 100)
+text("Installera Parlissima", size: 26, weight: .heavy, color: .white, y: h - 70)
+text("Dra Parlissima till mappen Appar", size: 15, weight: .regular, color: rgb(0xf4ede0, 0.85), y: h - 100)
 
 // Ljusa kort bakom ikonerna så att Finders ikonnamn syns tydligt
 for cx in [CGFloat(170), CGFloat(490)] {

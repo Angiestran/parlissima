@@ -1,7 +1,7 @@
-Tala
+Parlissima
 Copyright (c) 2026 Angelika Strandberg. Source code under the MIT License.
 
-Tala does not bundle any speech model. On first launch it downloads, from a
+Parlissima does not bundle any speech model. On first launch it downloads, from a
 pinned revision, and verifies by SHA-256:
 
   Klang Pianissimo (KlangAI/pianissimo-sv) by Klang AI AB
@@ -22,4 +22,4 @@ Third-party software:
   Mindtalk by Mindact Solutions AB – MIT License
   https://github.com/dragon6sic6/Mindtalk
 
-Tala is an independent app. It is not made, endorsed or supported by Klang AI AB.
+Parlissima is an independent app. It is not made, endorsed or supported by Klang AI AB.

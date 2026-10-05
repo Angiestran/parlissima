@@ -23,7 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Kortkommandot kräver Hjälpmedel. Vänta tyst tills det är beviljat.
         startKeysWhenAllowed()
 
-        if Owl.shared.isShown { Owl.shared.show() }
+        if Figure.shared.isShown { Figure.shared.show() }
         if PianissimoModel.isInstalled { Task { try? await SpeechEngine.shared.load() } }
         if !SetupModel.shared.allReady { SetupWindow.shared.show() }
 
@@ -49,7 +49,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         guard shownRecording != recording else { return }
         shownRecording = recording
         let name = recording ? "waveform.circle.fill" : "waveform"
-        let img = NSImage(systemSymbolName: name, accessibilityDescription: "Tala")
+        let img = NSImage(systemSymbolName: name, accessibilityDescription: "Parlissima")
         img?.isTemplate = true
         statusItem.button?.image = img
     }
@@ -64,7 +64,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let status: String
         if setup.downloading { status = "Hämtar Klangs modell … \(Int(setup.progress * 100)) %" }
         else if !setup.allReady { status = "Inte klar – öppna Inställningar" }
-        else { status = "Redo · håll höger alt och prata, eller klicka på ugglan" }
+        else { status = "Redo · håll höger alt och prata, eller klicka på pingvinen" }
         menu.addItem(disabled(status))
         menu.addItem(.separator())
 
@@ -89,9 +89,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         recent.submenu = sub
         menu.addItem(recent)
 
-        let owl = action("Visa cybergumman", #selector(toggleOwl), nil)
-        owl.state = Owl.shared.isShown ? .on : .off
-        menu.addItem(owl)
+        let figure = action("Visa pingvinen", #selector(toggleFigure), nil)
+        figure.state = Figure.shared.isShown ? .on : .off
+        menu.addItem(figure)
         menu.addItem(action("Ordlista …", #selector(openVocabulary), nil))
         menu.addItem(action("Inställningar och behörigheter …", #selector(openSetup), nil))
         let login = action("Starta vid inloggning", #selector(toggleLogin), nil)
@@ -99,7 +99,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(login)
         menu.addItem(.separator())
         menu.addItem(disabled("Klang Pianissimo · helt lokalt"))
-        menu.addItem(action("Avsluta Tala", #selector(quit), nil, key: "q"))
+        menu.addItem(action("Avsluta Parlissima", #selector(quit), nil, key: "q"))
     }
 
     private func disabled(_ title: String) -> NSMenuItem {
@@ -129,7 +129,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                                 configuration: NSWorkspace.OpenConfiguration())
     }
     @objc private func openSetup() { SetupWindow.shared.show() }
-    @objc private func toggleOwl() { Owl.shared.isShown.toggle() }
+    @objc private func toggleFigure() { Figure.shared.isShown.toggle() }
     @objc private func toggleLogin() {
         let s = SMAppService.mainApp
         if s.status == .enabled { try? s.unregister() } else { try? s.register() }
@@ -137,7 +137,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @objc private func quit() { NSApp.terminate(nil) }
 }
 
-// Dolt testläge för utveckling: Tala --test <ljudfil>  (hämtar modellen vid behov och skriver ut texten)
+// Dolt testläge för utveckling: Parlissima --test <ljudfil>  (hämtar modellen vid behov och skriver ut texten)
 if let i = CommandLine.arguments.firstIndex(of: "--test"), i + 1 < CommandLine.arguments.count {
     let path = CommandLine.arguments[i + 1]
     let done = DispatchSemaphore(value: 0)
@@ -168,15 +168,67 @@ if let i = CommandLine.arguments.firstIndex(of: "--test"), i + 1 < CommandLine.a
     exit(0)
 }
 
-// Dolt läge för utveckling: Tala --owl-preview <ut.png>  (ritar ugglan i alla lägen)
-if let i = CommandLine.arguments.firstIndex(of: "--owl-preview"), i + 1 < CommandLine.arguments.count {
+// Bygget: Parlissima --icon <ut.png>  (appikonen: pingvinen på GrowingSmart-indigo, 1024 x 1024)
+if let i = CommandLine.arguments.firstIndex(of: "--icon"), i + 1 < CommandLine.arguments.count {
+    MainActor.assumeIsolated {
+        let icon = ZStack {
+            ZStack {
+                LinearGradient(colors: [Color(red: 0x45/255, green: 0x3a/255, blue: 0x82/255), Brand.night],
+                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                Circle().fill(RadialGradient(colors: [Brand.coral.opacity(0.35), .clear], center: .center, startRadius: 10, endRadius: 330))
+                    .frame(width: 700, height: 700).offset(x: 140, y: -170)
+            }
+            .frame(width: 824, height: 824)
+            .clipShape(RoundedRectangle(cornerRadius: 185, style: .continuous))
+            PenguinView(model: HUDModel(), variant: .headphones, iconStyle: true)
+                .scaleEffect(5.0).offset(y: 30)
+        }
+        .frame(width: 1024, height: 1024)
+        .clipShape(Rectangle())
+        let r = ImageRenderer(content: icon)
+        r.scale = 1
+        if let img = r.nsImage, let tiff = img.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff),
+           let png = rep.representation(using: .png, properties: [:]) {
+            try? png.write(to: URL(fileURLWithPath: CommandLine.arguments[i + 1]))
+        }
+    }
+    exit(0)
+}
+
+// Dolt läge för utveckling: Parlissima --penguin-preview <ut.png>  (tre pingvinvarianter, vila och lyssnar)
+if let i = CommandLine.arguments.firstIndex(of: "--penguin-preview"), i + 1 < CommandLine.arguments.count {
+    MainActor.assumeIsolated {
+        let grid = VStack(spacing: 6) {
+            ForEach(Array(PenguinView.Variant.allCases.enumerated()), id: \.offset) { _, v in
+                HStack(spacing: 6) {
+                    ForEach(0..<2, id: \.self) { n in
+                        let m = HUDModel()
+                        let _ = { m.phase = n == 0 ? .hidden : .listening(handsfree: true); m.levels = Array(repeating: n == 1 ? 0.6 : 0, count: 32) }()
+                        PenguinView(model: m, variant: v)
+                    }
+                }
+            }
+        }
+        .padding(16)
+        let r = ImageRenderer(content: grid)
+        r.scale = 3
+        if let img = r.nsImage, let tiff = img.tiffRepresentation, let rep = NSBitmapImageRep(data: tiff),
+           let png = rep.representation(using: .png, properties: [:]) {
+            try? png.write(to: URL(fileURLWithPath: CommandLine.arguments[i + 1]))
+        }
+    }
+    exit(0)
+}
+
+// Dolt läge för utveckling: Parlissima --figure-preview <ut.png>  (ritar pingvinen i alla lägen)
+if let i = CommandLine.arguments.firstIndex(of: "--figure-preview"), i + 1 < CommandLine.arguments.count {
     MainActor.assumeIsolated {
         let phases: [HUDModel.Phase] = [.hidden, .listening(handsfree: true), .writing, .done("ok"), .problem("x")]
         let row = HStack(spacing: 8) {
             ForEach(phases.indices, id: \.self) { n in
                 let m = HUDModel()
                 let _ = { m.phase = phases[n]; m.levels = Array(repeating: n == 1 ? 0.6 : 0, count: 32) }()
-                GrannyView(model: m)
+                PenguinView(model: m, variant: .headphones)
             }
         }
         .padding(20)

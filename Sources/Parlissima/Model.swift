@@ -39,8 +39,14 @@ enum PianissimoModel {
     static var totalBytes: Int64 { files.reduce(0) { $0 + $1.size } }
 
     static var appSupport: URL {
-        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("Tala", isDirectory: true)
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        let dir = base.appendingPathComponent("Parlissima", isDirectory: true)
+        // Appen hette tidigare Tala: flytta befintlig modell, ordlista och historik så inget behöver hämtas igen.
+        let old = base.appendingPathComponent("Tala", isDirectory: true)
+        if !FileManager.default.fileExists(atPath: dir.path), FileManager.default.fileExists(atPath: old.path) {
+            try? FileManager.default.moveItem(at: old, to: dir)
+        }
+        return dir
     }
     static var directory: URL { appSupport.appendingPathComponent("pianissimo-sv", isDirectory: true) }
     private static var marker: URL { directory.appendingPathComponent(".klar") }
@@ -65,7 +71,7 @@ enum PianissimoModel {
             try fm.createDirectory(at: dest.deletingLastPathComponent(), withIntermediateDirectories: true)
             let base = done
             try await download(file, to: dest) { written in progress(0.9 * Double(base + written) / total) }
-            guard try sha256(of: dest) == file.sha256 else { throw TalaError.checksum(file.path) }
+            guard try sha256(of: dest) == file.sha256 else { throw ParlissimaError.checksum(file.path) }
             done += file.size
         }
         for (i, name) in toCompile.enumerated() {
@@ -94,7 +100,7 @@ enum PianissimoModel {
             delegate.continuation = cont
             session.downloadTask(with: url).resume()
         }
-        if let code = delegate.status, !(200..<300).contains(code) { throw TalaError.http(file.path, code) }
+        if let code = delegate.status, !(200..<300).contains(code) { throw ParlissimaError.http(file.path, code) }
     }
 
     static func sha256(of url: URL) throws -> String {
@@ -106,7 +112,7 @@ enum PianissimoModel {
     }
 }
 
-enum TalaError: LocalizedError {
+enum ParlissimaError: LocalizedError {
     case checksum(String), http(String, Int), notInstalled, noMicrophone
     var errorDescription: String? {
         switch self {
@@ -152,7 +158,7 @@ actor SpeechEngine {
 
     func load() async throws {
         if asr != nil { return }
-        guard PianissimoModel.isInstalled else { throw TalaError.notInstalled }
+        guard PianissimoModel.isInstalled else { throw ParlissimaError.notInstalled }
         let models = try AsrModels.loadLocal(from: PianissimoModel.directory, version: .v3)
         let manager = AsrManager(config: .default)
         try await manager.loadModels(models)
@@ -164,7 +170,7 @@ actor SpeechEngine {
     /// 16 kHz mono. Korta klipp fylls ut med tystnad – modellen vill ha minst en sekund.
     func transcribe(_ samples: [Float]) async throws -> String {
         try await load()
-        guard let asr else { throw TalaError.notInstalled }
+        guard let asr else { throw ParlissimaError.notInstalled }
         let pad = [Float](repeating: 0, count: 4_800)
         var audio = pad + samples + pad
         if audio.count < 24_000 { audio += [Float](repeating: 0, count: 24_000 - audio.count) }
