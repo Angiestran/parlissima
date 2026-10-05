@@ -9,7 +9,7 @@ Parlissima är en liten menyradsapp. Namnet är en blinkning till Klang Pianissi
 ## Så fungerar det
 
 - **Klicka på pingvinen** för att börja prata, klicka igen när du är klar. Den tar aldrig fokus, så texten klistras in där du redan skriver: i mejlet, dokumentet eller chatten.
-- **Eller håll in höger alt** (eller höger control), prata och släpp. **Dubbeltryck** för att prata länge utan att hålla in.
+- **Eller håll in höger option (⌥) eller höger control (⌃)**, prata och släpp. **Dubbeltryck** för att prata länge utan att hålla in.
 - **Esc** avbryter utan att något skrivs.
 - Pingvinen visar tydligt vad den gör: hörlurarna lyser korall och en röd prick pulserar när den lyssnar, en tankebubbla visas när den skriver och en bock när texten är inklistrad. En indikator högst upp visar ljudvåg och tid.
 - **Egen ordlista** för namn och ord som ska stavas på ett visst sätt (menyraden → Ordlista).
@@ -56,7 +56,7 @@ Ett startfönster visar tre steg:
 
 1. **Hämta Klangs modell**, cirka 690 MB och bara en gång. Varje fil kontrolleras mot en fast kontrollsumma.
 2. **Tillåt mikrofonen.**
-3. **Slå på Parlissima under Hjälpmedel** (Systeminställningar → Integritet och säkerhet). Det behövs för att texten ska kunna klistras in och för att höger alt ska fungera överallt.
+3. **Slå på Parlissima under Hjälpmedel** (Systeminställningar → Integritet och säkerhet). Det behövs för att texten ska kunna klistras in och för att kortkommandot ska fungera överallt.
 
 Sedan klickar du på pingvinen och pratar.
 

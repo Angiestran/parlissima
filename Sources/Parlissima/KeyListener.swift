@@ -1,7 +1,7 @@
 import AppKit
 import Carbon.HIToolbox
 
-/// Lyssnar på höger alt (⌥) och höger control (⌃) – båda fungerar likadant.
+/// Lyssnar på höger option (⌥) och höger control (⌃) – båda fungerar likadant.
 /// - Håll in: spelar in tills du släpper.
 /// - Dubbeltryck: handsfree, avsluta med ett tryck till.
 /// - Esc: avbryter utan att något skrivs.
@@ -17,7 +17,7 @@ final class KeyListener {
 
     /// Dikteringstangenter → deras egen bit i event-flaggorna (skiljer höger från vänster).
     private let keys: [UInt16: UInt64] = [
-        UInt16(kVK_RightOption): 0x40,          // NX_DEVICERALTKEYMASK  – höger alt
+        UInt16(kVK_RightOption): 0x40,          // NX_DEVICERALTKEYMASK  – höger option
         UInt16(kVK_RightControl): 0x2000,       // NX_DEVICERCTLKEYMASK – höger control
     ]
     private var tap: CFMachPort?

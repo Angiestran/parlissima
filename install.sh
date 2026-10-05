@@ -31,4 +31,4 @@ say "Klart! Parlissima ligger i Appar. Startar …"
 open /Applications/Parlissima.app
 print ""
 print "Följ startfönstret: hämta Klangs modell, tillåt mikrofon och slå på Parlissima under Hjälpmedel."
-print "Klicka sedan på cybergumman eller håll in höger alt och prata."
+print "Klicka sedan på pingvinen eller håll in höger option (⌥) eller höger control (⌃) och prata."

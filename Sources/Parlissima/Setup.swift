@@ -87,7 +87,7 @@ struct SetupView: View {
             }
 
             step(3, "Hjälpmedel", done: model.accessReady,
-                 detail: "Så att höger alt fungerar överallt och texten kan klistras in. Slå på Parlissima i listan.") {
+                 detail: "Så att kortkommandot fungerar överallt och texten kan klistras in. Slå på Parlissima i listan.") {
                 if !model.accessReady { button("Öppna inställningar") { model.askAccess() } }
             }
 
@@ -97,7 +97,7 @@ struct SetupView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Klart! Klicka på pingvinen och prata.")
                         .font(.system(size: 18, weight: .semibold)).foregroundStyle(.white)
-                    Text("Klicka igen när du är klar. Du kan också hålla in höger alt. Esc avbryter. Dikteringar sparas i två timmar under Senaste i menyraden.")
+                    Text("Klicka igen när du är klar. Du kan också hålla in höger option (⌥) eller höger control (⌃). Esc avbryter. Dikteringar sparas i två timmar under Senaste i menyraden.")
                         .font(.system(size: 14)).foregroundStyle(Brand.soft)
                 }
             }

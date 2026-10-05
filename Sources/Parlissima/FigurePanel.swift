@@ -13,7 +13,7 @@ private final class FigureWindow: NSPanel {
 }
 
 /// Skiljer klick från dragning: klick startar/stoppar, dragning flyttar figuren.
-private final class FigureHost: NSHostingView<PenguinView> {
+private final class FigureHost: NSHostingView<AnyView> {
     var onClick: (() -> Void)?
     var onMoved: ((NSPoint) -> Void)?
     private var start: NSPoint?
@@ -59,7 +59,7 @@ final class Figure {
     func hide() { panel?.orderOut(nil) }
 
     private func make() -> NSPanel {
-        let p = FigureWindow(contentRect: NSRect(origin: .zero, size: PenguinView.size),
+        let p = FigureWindow(contentRect: NSRect(origin: .zero, size: NSSize(width: PenguinView.size.width + 60, height: PenguinView.size.height + 60)),
                          styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
         p.isOpaque = false
         p.backgroundColor = .clear
@@ -67,7 +67,7 @@ final class Figure {
         p.level = .floating
         p.hidesOnDeactivate = false
         p.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
-        let host = FigureHost(rootView: PenguinView(model: Dictation.shared.hud.model, variant: .headphones))
+        let host = FigureHost(rootView: AnyView(PenguinView(model: Dictation.shared.hud.model, variant: .headphones).padding(30)))
         host.onClick = { Dictation.shared.toggle() }
         host.onMoved = { [key] o in UserDefaults.standard.set(NSStringFromPoint(o), forKey: key) }
         p.contentView = host

@@ -82,7 +82,7 @@ struct HUDView: View {
                         .font(.system(size: 17, weight: .semibold).monospacedDigit())
                         .foregroundStyle(.white)
                 }
-                Text(handsfree ? "Klicka på pingvinen eller tryck höger alt" : "Släpp när du är klar")
+                Text(handsfree ? "Klicka på pingvinen eller tryck höger ⌥ eller ⌃" : "Släpp när du är klar")
                     .font(.system(size: 14)).foregroundStyle(Brand.soft)
             }
         case .waiting:

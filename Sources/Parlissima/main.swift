@@ -64,7 +64,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let status: String
         if setup.downloading { status = "Hämtar Klangs modell … \(Int(setup.progress * 100)) %" }
         else if !setup.allReady { status = "Inte klar – öppna Inställningar" }
-        else { status = "Redo · håll höger alt och prata, eller klicka på pingvinen" }
+        else { status = "Redo · klicka på pingvinen eller håll in höger ⌥ eller ⌃" }
         menu.addItem(disabled(status))
         menu.addItem(.separator())
 
@@ -165,6 +165,34 @@ if let i = CommandLine.arguments.firstIndex(of: "--test"), i + 1 < CommandLine.a
         done.signal()
     }
     done.wait()
+    exit(0)
+}
+
+// Dolt läge: Parlissima --ui-shots <mapp>  (bilder av appens gränssnitt, renderade från samma kod som appen)
+if let i = CommandLine.arguments.firstIndex(of: "--ui-shots"), i + 1 < CommandLine.arguments.count {
+    MainActor.assumeIsolated {
+        let dir = CommandLine.arguments[i + 1]
+        @MainActor func save<V: View>(_ v: V, _ name: String) {
+            let r = ImageRenderer(content: v); r.scale = 3
+            if let img = r.nsImage, let t = img.tiffRepresentation, let rep = NSBitmapImageRep(data: t),
+               let png = rep.representation(using: .png, properties: [:]) {
+                try? png.write(to: URL(fileURLWithPath: dir + "/" + name))
+            }
+        }
+        let levels: [Float] = (0..<32).map { i in Float(0.25 + 0.6 * abs(sin(Double(i) * 0.7))) }
+        let listen = HUDModel(); listen.phase = .listening(handsfree: true); listen.levels = levels
+        listen.started = Date().addingTimeInterval(-23)
+        save(HUDView(model: listen), "hud-lyssnar.png")
+        let done = HUDModel(); done.phase = .done("38 ord inklistrade")
+        save(HUDView(model: done), "hud-klar.png")
+        let writing = HUDModel(); writing.phase = .writing
+        save(HUDView(model: writing), "hud-skriver.png")
+        save(PenguinView(model: listen, variant: .headphones).padding(40), "pingvin-lyssnar.png")
+        save(PenguinView(model: HUDModel(), variant: .headphones).padding(40), "pingvin-vila.png")
+        let setup = SetupModel.shared
+        setup.modelReady = true; setup.micReady = true; setup.accessReady = true
+        save(SetupView(), "startfonster.png")
+    }
     exit(0)
 }
 
