@@ -58,7 +58,7 @@ struct PenguinView: View {
         .frame(width: Self.size.width, height: Self.size.height)
         .contentShape(Rectangle())
         .onHover { hover = $0 }
-        .help(mood == .listening ? "Lyssnar – klicka när du är klar" : "Klicka och prata")
+        .help(mood == .listening ? "Lyssnar – klicka när du är klar" : "Klicka och prata · högerklicka för menyn")
         .onReceive(Timer.publish(every: 4.2, on: .main, in: .common).autoconnect()) { _ in
             guard mood == .idle else { return }
             withAnimation(.easeInOut(duration: 0.08)) { blink = true }

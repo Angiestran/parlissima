@@ -2,7 +2,7 @@ import SwiftUI
 import AppKit
 
 // MARK: - Fönstret som pingvinen bor i: ligger överst på skärmen.
-// Klick = starta/stoppa diktering. Dra = flytta. Tar aldrig fokus, så texten hamnar
+// Klick = starta/stoppa diktering. Högerklick = menyn. Dra = flytta. Tar aldrig fokus, så texten hamnar
 // där markören redan står (t.ex. i Claudes skrivfält).
 
 
@@ -16,14 +16,17 @@ private final class FigureWindow: NSPanel {
 private final class FigureHost: NSHostingView<AnyView> {
     var onClick: (() -> Void)?
     var onMoved: ((NSPoint) -> Void)?
+    var onMenu: ((NSEvent, NSView) -> Void)?
     private var start: NSPoint?
     private var origin: NSPoint?
     private var dragged = false
 
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
     override func mouseDown(with e: NSEvent) {
+        if e.modifierFlags.contains(.control) { onMenu?(e, self); start = nil; return }   // ctrl-klick = menyn
         start = NSEvent.mouseLocation; origin = window?.frame.origin; dragged = false
     }
+    override func rightMouseDown(with e: NSEvent) { onMenu?(e, self) }
     override func mouseDragged(with e: NSEvent) {
         guard let start, let origin, let w = window else { return }
         let now = NSEvent.mouseLocation
@@ -33,6 +36,7 @@ private final class FigureHost: NSHostingView<AnyView> {
         w.setFrameOrigin(NSPoint(x: origin.x + dx, y: origin.y + dy))
     }
     override func mouseUp(with e: NSEvent) {
+        guard start != nil else { return }
         if dragged, let o = window?.frame.origin { onMoved?(o) } else { onClick?() }
         start = nil
     }
@@ -69,6 +73,7 @@ final class Figure {
         p.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
         let host = FigureHost(rootView: AnyView(PenguinView(model: Dictation.shared.hud.model, variant: .headphones).padding(30)))
         host.onClick = { Dictation.shared.toggle() }
+        host.onMenu = { e, v in (NSApp.delegate as? AppDelegate)?.popUpMenu(with: e, for: v) }
         host.onMoved = { [key] o in UserDefaults.standard.set(NSStringFromPoint(o), forKey: key) }
         p.contentView = host
         if let s = UserDefaults.standard.string(forKey: key) {

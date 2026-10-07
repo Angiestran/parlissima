@@ -19,6 +19,30 @@ enum Inserter {
         return IsSecureEventInputEnabled()
     }
 
+    enum Target { case editable, nothing, unknown }
+
+    /// Finns det en textruta att klistra in i? Svarar "unknown" när appen inte går att fråga,
+    /// då klistrar vi in som vanligt hellre än att missa (t.ex. webbappar som döljer sina fält).
+    static var target: Target {
+        let system = AXUIElementCreateSystemWide()
+        AXUIElementSetMessagingTimeout(system, 0.2)
+        var focused: CFTypeRef?
+        let err = AXUIElementCopyAttributeValue(system, kAXFocusedUIElementAttribute as CFString, &focused)
+        if err == .noValue { return .nothing }                       // inget fokuserat alls
+        guard err == .success, let element = focused, CFGetTypeID(element) == AXUIElementGetTypeID() else { return .unknown }
+        let el = element as! AXUIElement
+        AXUIElementSetMessagingTimeout(el, 0.2)
+        var role: CFTypeRef?
+        AXUIElementCopyAttributeValue(el, kAXRoleAttribute as CFString, &role)
+        let textRoles = ["AXTextField", "AXTextArea", "AXComboBox", "AXSearchField"]
+        if let r = role as? String, textRoles.contains(r) { return .editable }
+        var settable = DarwinBoolean(false)
+        if AXUIElementIsAttributeSettable(el, kAXValueAttribute as CFString, &settable) == .success, settable.boolValue { return .editable }
+        var range: CFTypeRef?
+        if AXUIElementCopyAttributeValue(el, kAXSelectedTextRangeAttribute as CFString, &range) == .success { return .editable }
+        return .nothing
+    }
+
     static func paste(_ text: String) {
         let pb = NSPasteboard.general
         let saved = snapshot(pb)

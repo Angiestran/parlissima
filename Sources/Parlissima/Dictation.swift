@@ -155,6 +155,13 @@ final class Dictation {
                 hud.show(.problem("Texten ligger i urklipp – tryck ⌘V. Slå på Parlissima under Hjälpmedel så klistras den in själv."), hideAfter: 6)
                 return
             }
+            // Ingen textruta markerad: lägg texten i urklipp i stället för att klistra in i tomma intet.
+            if Inserter.target == .nothing {
+                Inserter.copy(text)
+                Log.write("Ingen textruta i \(target) – texten lagd i urklipp")
+                hud.show(.done("Ingen textruta markerad. Texten ligger i urklipp, tryck ⌘V."), hideAfter: 4)
+                return
+            }
             Inserter.paste(text)
             Log.write("Inklistrat i \(target)")
             let words = text.split(separator: " ").count

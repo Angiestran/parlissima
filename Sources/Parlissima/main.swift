@@ -54,6 +54,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         statusItem.button?.image = img
     }
 
+    /// Samma meny som i menyraden, när man högerklickar på pingvinen.
+    func popUpMenu(with event: NSEvent, for view: NSView) {
+        let menu = NSMenu()
+        menuNeedsUpdate(menu)
+        NSMenu.popUpContextMenu(menu, with: event, for: view)
+    }
+
     // MARK: Menyn byggs om varje gång den öppnas
 
     func menuNeedsUpdate(_ menu: NSMenu) {

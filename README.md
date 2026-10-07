@@ -11,6 +11,8 @@ Parlissima är en liten menyradsapp. Namnet är en blinkning till Klang Pianissi
 - **Klicka på pingvinen** för att börja prata, klicka igen när du är klar. Den tar aldrig fokus, så texten klistras in där du redan skriver: i mejlet, dokumentet eller chatten.
 - **Eller håll in höger option (⌥) eller höger control (⌃)**, prata och släpp. **Dubbeltryck** för att prata länge utan att hålla in.
 - **Esc** avbryter utan att något skrivs.
+- **Högerklicka på pingvinen** för menyn med Senaste, Ordlista och Inställningar.
+- **Glömt att markera en textruta?** Då lägger Parlissima texten i urklipp i stället, så trycker du ⌘V där du vill ha den.
 - Pingvinen visar tydligt vad den gör: hörlurarna lyser korall och en röd prick pulserar när den lyssnar, en tankebubbla visas när den skriver och en bock när texten är inklistrad. En indikator högst upp visar ljudvåg och tid.
 - **Egen ordlista** för namn och ord som ska stavas på ett visst sätt (menyraden → Ordlista).
 - **Senaste:** dina dikteringar sparas i två timmar på din Mac, så att du kan kopiera texten igen eller låta Pianissimo försöka på nytt. Sedan raderas de automatiskt.
