@@ -57,7 +57,19 @@ final class Figure {
     func show() {
         let p = panel ?? make()
         panel = p
+        keepOnScreen()
         p.orderFrontRegardless()
+    }
+
+    /// Flyttar tillbaka pingvinen om den hamnat utanför skärmarna, t.ex. när en extern skärm kopplats bort.
+    func keepOnScreen() {
+        guard let p = panel else { return }
+        let visible = NSScreen.screens.contains { $0.visibleFrame.intersects(p.frame.insetBy(dx: 40, dy: 40)) }
+        if !visible, let vf = NSScreen.main?.visibleFrame {
+            let o = NSPoint(x: vf.maxX - p.frame.width - 20, y: vf.minY + 20)   // nere till höger
+            p.setFrameOrigin(o)
+            UserDefaults.standard.set(NSStringFromPoint(o), forKey: key)
+        }
     }
 
     func hide() { panel?.orderOut(nil) }
@@ -76,10 +88,13 @@ final class Figure {
         host.onMenu = { e, v in (NSApp.delegate as? AppDelegate)?.popUpMenu(with: e, for: v) }
         host.onMoved = { [key] o in UserDefaults.standard.set(NSStringFromPoint(o), forKey: key) }
         p.contentView = host
+        NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main) { _ in
+            MainActor.assumeIsolated { Figure.shared.keepOnScreen() }
+        }
         if let s = UserDefaults.standard.string(forKey: key) {
             p.setFrameOrigin(NSPointFromString(s))
         } else if let vf = NSScreen.main?.visibleFrame {
-            p.setFrameOrigin(NSPoint(x: vf.maxX - 170, y: vf.minY + 40))   // nere till höger
+            p.setFrameOrigin(NSPoint(x: vf.maxX - p.frame.width - 20, y: vf.minY + 20))   // nere till höger
         }
         return p
     }
