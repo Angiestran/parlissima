@@ -12,7 +12,7 @@ Parlissima är en liten menyradsapp. Namnet är en blinkning till Klang Pianissi
 - **Eller håll in höger option (⌥) eller höger control (⌃)**, prata och släpp. **Dubbeltryck** för att prata länge utan att hålla in.
 - **Esc** avbryter utan att något skrivs.
 - **Högerklicka på pingvinen** för menyn med Senaste, Ordlista och Inställningar.
-- **Glömt att markera en textruta?** Då lägger Parlissima texten i urklipp i stället, så trycker du ⌘V där du vill ha den.
+- **Hittar du inte texten?** Om Parlissima inte kan se att markören står i en textruta ligger texten också kvar i urklipp, och indikatorn säger det. Klicka där du vill ha den och tryck ⌘V. Alla dikteringar finns dessutom under Senaste i två timmar.
 - Pingvinen visar tydligt vad den gör: hörlurarna lyser korall och en röd prick pulserar när den lyssnar, en tankebubbla visas när den skriver och en bock när texten är inklistrad. En indikator högst upp visar ljudvåg och tid.
 - **Egen ordlista** för namn och ord som ska stavas på ett visst sätt (menyraden → Ordlista).
 - **Senaste:** dina dikteringar sparas i två timmar på din Mac, så att du kan kopiera texten igen eller låta Pianissimo försöka på nytt. Sedan raderas de automatiskt.
@@ -69,7 +69,7 @@ Sedan klickar du på pingvinen och pratar.
 - Taligenkänningen körs lokalt på Macens Neural Engine. Inget ljud lämnar datorn.
 - Nätet används bara en gång: för att hämta språkmodellen från Hugging Face.
 - Inga konton, ingen analys, ingen spårning.
-- Parlissima klistrar aldrig in i lösenordsfält och det du hade i urklipp läggs tillbaka.
+- Parlissima klistrar aldrig in i lösenordsfält. Det du hade i urklipp läggs tillbaka när inklistringen säkert har landat.
 - Dikteringar (text och ljud) sparas i högst två timmar i `~/Library/Application Support/Parlissima/Senaste` och raderas sedan.
 
 ## Bygga själv

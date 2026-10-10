@@ -156,16 +156,18 @@ final class Dictation {
                 return
             }
             // Ingen textruta markerad: lägg texten i urklipp i stället för att klistra in i tomma intet.
-            if Inserter.target == .nothing {
-                Inserter.copy(text)
-                Log.write("Ingen textruta i \(target) – texten lagd i urklipp")
-                hud.show(.done("Ingen textruta markerad. Texten ligger i urklipp, tryck ⌘V."), hideAfter: 4)
-                return
-            }
-            Inserter.paste(text)
-            Log.write("Inklistrat i \(target)")
             let words = text.split(separator: " ").count
-            hud.show(.done("\(words) ord inklistrade"), hideAfter: 1.2)
+            // Klistra alltid in. Kan vi inte bekräfta en textruta (vanligt i Claude, Chrome och andra
+            // webbaserade appar) ligger texten också kvar i urklipp, så att den alltid går att nå med ⌘V.
+            if Inserter.target == .editable {
+                Inserter.paste(text)
+                Log.write("Inklistrat i \(target)")
+                hud.show(.done("\(words) ord inklistrade"), hideAfter: 1.5)
+            } else {
+                Inserter.paste(text, keepInClipboard: true)
+                Log.write("Inklistrat i \(target), texten ligger även i urklipp")
+                hud.show(.done("\(words) ord inklistrade · finns även i urklipp, tryck ⌘V"), hideAfter: 5)
+            }
         } catch {
             Sound.error()
             hud.show(.problem(error.localizedDescription), hideAfter: 4)

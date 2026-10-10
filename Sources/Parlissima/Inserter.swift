@@ -43,7 +43,8 @@ enum Inserter {
         return .nothing
     }
 
-    static func paste(_ text: String) {
+    /// `keepInClipboard`: lämna texten i urklipp efteråt (när vi inte säkert vet att inklistringen landade).
+    static func paste(_ text: String, keepInClipboard: Bool = false) {
         let pb = NSPasteboard.general
         let saved = snapshot(pb)
         pb.clearContents()
@@ -61,6 +62,7 @@ enum Inserter {
         down?.post(tap: .cghidEventTap)
         up?.post(tap: .cghidEventTap)
 
+        if keepInClipboard { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             guard pb.changeCount == ours else { return }   // något annat har kopierats under tiden
             pb.clearContents()
